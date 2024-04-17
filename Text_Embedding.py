@@ -1,0 +1,71 @@
+import streamlit as st
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Embedding, SimpleRNN, Dense
+
+def app():
+    st.title('Text Embedding')
+    st.write('Text Embedding is a technique to convert text data into numerical \
+             data. It is used to convert text data into numerical data so that it can be used in machine learning models. There are many techniques to convert text data into numerical data. Some of the popular techniques are Bag of Words, TF-IDF, Word2Vec, GloVe, etc.')
+
+    # Example text data
+    text = st.text_area('Enter text data:')
+    
+    # Tokenize the text (convert words to integers)
+    tokenizer = tf.keras.preprocessing.text.Tokenizer()
+    tokenizer.fit_on_texts([text])
+    vocab_size = len(tokenizer.word_index) + 1
+    sequences = tokenizer.texts_to_sequences([text])[0]
+
+    # Create input sequences and labels
+    input_sequences = []
+    for i in range(1, len(sequences)):
+        n_gram_sequence = sequences[:i+1]
+        input_sequences.append(n_gram_sequence)
+
+    # Pad sequences to ensure uniform input size
+    max_sequence_len = max([len(x) for x in input_sequences])
+    input_sequences = np.array(tf.keras.preprocessing.sequence.pad_sequences(input_sequences, maxlen=max_sequence_len, padding='pre'))
+
+    # Create predictors and label
+    predictors, label = input_sequences[:,:-1],input_sequences[:,-1]
+
+    # Build the RNN model
+    model = Sequential()
+    model.add(Embedding(vocab_size, 10, input_length=max_sequence_len-1))
+    model.add(SimpleRNN(50, return_sequences=True))
+    model.add(SimpleRNN(50))
+    model.add(Dense(vocab_size, activation='softmax'))
+
+    model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.summary()
+
+    if st.button('Begin Training'):
+        # Train the model
+        model.fit(predictors, label, epochs=100, verbose=1)
+
+        # Function to generate text using the trained model
+        def generate_text(seed_text, next_words, max_sequence_len):
+            for _ in range(next_words):
+                token_list = tokenizer.texts_to_sequences([seed_text])[0]
+                token_list = tf.keras.preprocessing.sequence.pad_sequences([token_list], maxlen=max_sequence_len-1, padding='pre')
+                predicted_probs = model.predict(token_list, verbose=0)[0]
+                predicted_index = np.random.choice(len(predicted_probs), p=predicted_probs)
+                output_word = ""
+                for word, index in tokenizer.word_index.items():
+                    if index == predicted_index:
+                        output_word = word
+                        break
+                seed_text += " " + output_word
+            return seed_text
+
+        # Generate text using the trained model
+        text_input = st.text_input('Enter seed text:')
+        generated_text = generate_text(text_input, 10, max_sequence_len)
+        st.write(generated_text)
+
+
+
+if __name__=='__main__':
+    app()   
