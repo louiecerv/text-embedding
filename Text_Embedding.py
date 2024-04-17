@@ -27,8 +27,11 @@ def app():
              convert text data into numerical data. Some of the popular techniques \
              are Bag of Words, TF-IDF, Word2Vec, GloVe, etc.')
 
-    # Example text data
-    text = st.text_area('Enter text data:')
+    # Load text from file
+    input_text = load_text_from_file('statements.txt')
+    
+    # Display the text in a text are
+    text = st.text_area("Text Area", input_text)
 
     if st.sidebar.button('Prepare Data'):    
         # Tokenize the text (convert words to integers)
@@ -83,6 +86,10 @@ def app():
         generated_text = generate_text(text_input, 10, max_sequence_len)
         st.write(generated_text)
 
+def load_text_from_file(file_path):
+    with open(file_path, 'r') as file:
+        text = file.read()
+    return text
 
 # Function to generate text using the trained model
 def generate_text(seed_text, next_words, max_sequence_len):
