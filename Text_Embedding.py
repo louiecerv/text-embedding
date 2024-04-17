@@ -79,7 +79,7 @@ def app():
         label = st.session_state.label
 
         # Train the model
-        model.fit(predictors, label, epochs=100, verbose=1, callbacks=[CustomCallback()]
+        model.fit(predictors, label, epochs=100, verbose=1, callbacks=[CustomCallback()])
 
          # update the progress bar
         for i in range(100):
