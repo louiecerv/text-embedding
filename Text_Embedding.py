@@ -22,7 +22,10 @@ if "tokenizer" not in st.session_state:
 def app():
     st.title('Text Embedding')
     st.write('Text Embedding is a technique to convert text data into numerical \
-             data. It is used to convert text data into numerical data so that it can be used in machine learning models. There are many techniques to convert text data into numerical data. Some of the popular techniques are Bag of Words, TF-IDF, Word2Vec, GloVe, etc.')
+             data. It is used to convert text data into numerical data so that it \
+             can be used in machine learning models. There are many techniques to \
+             convert text data into numerical data. Some of the popular techniques \
+             are Bag of Words, TF-IDF, Word2Vec, GloVe, etc.')
 
     # Example text data
     text = st.text_area('Enter text data:')
