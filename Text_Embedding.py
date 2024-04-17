@@ -3,6 +3,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, SimpleRNN, Dense
+import time
 
 if "trained_model" not in st.session_state:
     st.session_state.model = None
@@ -71,12 +72,24 @@ def app():
         st.write('Data is prepared successfully!')
 
     if st.sidebar.button('Begin Training'):
+        progress_bar = st.progress(0, text="Training the model, please wait...")
+
         model = st.session_state.trained_model
         predictors = st.session_state.predictors
         label = st.session_state.label
 
         # Train the model
         model.fit(predictors, label, epochs=100, verbose=1)
+
+         # update the progress bar
+        for i in range(100):
+            # Update progress bar value
+            progress_bar.progress(i + 1)
+            # Simulate some time-consuming task (e.g., sleep)
+            time.sleep(0.01)
+        # Progress bar reaches 100% after the loop completes
+        st.success("Model training completed!") 
+
 
     # Generate text using the trained model
     text_input = st.text_input('Enter seed text:')
