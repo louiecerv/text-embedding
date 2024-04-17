@@ -79,7 +79,7 @@ def app():
         label = st.session_state.label
 
         # Train the model
-        model.fit(predictors, label, epochs=100, verbose=1)
+        model.fit(predictors, label, epochs=100, verbose=1, callbacks=[CustomCallback()]
 
          # update the progress bar
         for i in range(100):
@@ -121,6 +121,17 @@ def generate_text(seed_text, next_words, max_sequence_len):
                 break
         seed_text += " " + output_word
     return seed_text
+
+# Define a custom callback function to update the Streamlit interface
+class CustomCallback(tf.keras.callbacks.Callback):
+    def on_epoch_end(self, epoch, logs=None):
+        # Get the current loss and accuracy metrics
+        loss = logs['loss']
+        accuracy = logs['accuracy']
+        
+        # Update the Streamlit interface with the current epoch's output
+        st.text(f"Epoch {epoch}: loss = {loss:.4f}, accuracy = {accuracy:.4f}")
+        st.session_state.training_history.append({'epoch': epoch, 'loss': loss, 'accuracy': accuracy})
 
 if __name__=='__main__':
     app()   
