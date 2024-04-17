@@ -30,7 +30,7 @@ def app():
     # Example text data
     text = st.text_area('Enter text data:')
 
-    if st.button('Prepare Data'):    
+    if st.sidebar.button('Prepare Data'):    
         # Tokenize the text (convert words to integers)
         tokenizer = tf.keras.preprocessing.text.Tokenizer()
         tokenizer.fit_on_texts([text])
@@ -67,7 +67,7 @@ def app():
         st.session_state.trained_model = model
         st.write('Data is prepared successfully!')
 
-    if st.button('Begin Training'):
+    if st.sidebar.button('Begin Training'):
         model = st.session_state.trained_model
         predictors = st.session_state.predictors
         label = st.session_state.label
