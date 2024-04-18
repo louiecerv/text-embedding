@@ -127,11 +127,10 @@ class CustomCallback(tf.keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs=None):
         # Get the current loss and accuracy metrics
         loss = logs['loss']
-        accuracy = logs['accuracy']
         
         # Update the Streamlit interface with the current epoch's output
         st.text(f"Epoch {epoch}: loss = {loss:.4f}, accuracy = {accuracy:.4f}")
-        st.session_state.training_history.append({'epoch': epoch, 'loss': loss, 'accuracy': accuracy})
+        st.session_state.training_history.append({'epoch': epoch, 'loss': loss})
 
 if __name__=='__main__':
     app()   
