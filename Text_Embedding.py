@@ -71,6 +71,14 @@ def app():
         st.session_state.trained_model = model
         st.write('Data is prepared successfully!')
 
+    epochs = st.sidebar.slider(   
+        label="Set the number epochs:",
+        min_value=5,
+        max_value=100,
+        value=5,
+        step=5
+    )
+
     if st.sidebar.button('Begin Training'):
         progress_bar = st.progress(0, text="Training the model, please wait...")
 
@@ -79,7 +87,7 @@ def app():
         label = st.session_state.label
 
         # Train the model
-        model.fit(predictors, label, epochs=100, verbose=1, callbacks=[CustomCallback()])
+        model.fit(predictors, label, epochs=epochs, verbose=1, callbacks=[CustomCallback()])
 
          # update the progress bar
         for i in range(100):
@@ -91,13 +99,13 @@ def app():
         st.success("Model training completed!") 
 
 
-    # Generate text using the trained model
-    text_input = st.text_input('Enter seed text:')
+        # Generate text using the trained model
+        text_input = st.text_input('Enter seed text:')
 
-    if st.button('Test the Model'):
-        max_sequence_len = st.session_state.max_sequence_len
-        generated_text = generate_text(text_input, 10, max_sequence_len)
-        st.write(generated_text)
+        if st.button('Test the Model'):
+            max_sequence_len = st.session_state.max_sequence_len
+            generated_text = generate_text(text_input, 10, max_sequence_len)
+            st.write(generated_text)
 
 def load_text_from_file(file_path):
     with open(file_path, 'r') as file:
