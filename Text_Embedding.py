@@ -22,12 +22,21 @@ if "tokenizer" not in st.session_state:
     st.session_state.tokenizer = None
         
 def app():
-    st.title('Text Embedding')
-    st.write('Text Embedding is a technique to convert text data into numerical \
-             data. It is used to convert text data into numerical data so that it \
-             can be used in machine learning models. There are many techniques to \
-             convert text data into numerical data. Some of the popular techniques \
-             are Bag of Words, TF-IDF, Word2Vec, GloVe, etc.')
+    st.title('Text Embedding using RNN')
+
+    text = """Prof. Louie F. Cervantes, M. Eng. (Information Engineering) \n
+    CCS 229 - Intelligent Systems
+    Department of Computer Science
+    College of Information and Communications Technology
+    West Visayas State University"""
+    st.text(text)
+
+    with st.expander('What is Text Embedding?'):
+        st.write('Text Embedding is a technique to convert text data into numerical \
+                data. It is used to convert text data into numerical data so that it \
+                can be used in machine learning models. There are many techniques to \
+                convert text data into numerical data. Some of the popular techniques \
+                are Bag of Words, TF-IDF, Word2Vec, GloVe, etc.')
 
     # Load text from file
     input_text = load_text_from_file('statements.txt')
