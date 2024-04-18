@@ -98,13 +98,20 @@ def app():
         # Progress bar reaches 100% after the loop completes
         st.success("Model training completed!") 
 
-
     # Generate text using the trained model
     seedtext = st.text_input('Enter a seed text:')
 
+    n_words = st.sidebar.slider(   
+        label="Number of words:",
+        min_value=5,
+        max_value=20,
+        value=5,
+        step=1
+    )
+
     if st.button('Test the Model'):
         max_sequence_len = st.session_state.max_sequence_len
-        generated_text = generate_text(seedtext, 10, max_sequence_len)
+        generated_text = generate_text(seedtext, n_words, max_sequence_len)
         st.write(generated_text)
 
 def load_text_from_file(file_path):
