@@ -99,13 +99,13 @@ def app():
         st.success("Model training completed!") 
 
 
-        # Generate text using the trained model
-        st.sidebar.text_input = st.text_input('Enter a seed text:')
+    # Generate text using the trained model
+    text_input = st.sidebar.text_input('Enter a seed text:')
 
-        if st.sidebar.button('Test the Model'):
-            max_sequence_len = st.session_state.max_sequence_len
-            generated_text = generate_text(text_input, 10, max_sequence_len)
-            st.write(generated_text)
+    if st.sidebar.button('Test the Model'):
+        max_sequence_len = st.session_state.max_sequence_len
+        generated_text = generate_text(text_input, 10, max_sequence_len)
+        st.write(generated_text)
 
 def load_text_from_file(file_path):
     with open(file_path, 'r') as file:
