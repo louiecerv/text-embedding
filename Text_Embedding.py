@@ -91,10 +91,8 @@ def app():
         history = model.fit(predictors, label, epochs=epochs, verbose=1, callbacks=[CustomCallback()])
 
         fig, ax = plt.subplots()  # Create a figure and an axes
-        ax.plot(history.history['loss'], label='Train')  # Plot training loss on ax
-        ax.plot(history.history['val_loss'], label='Validation')  # Plot validation loss on ax
-
-        ax.set_title('Model loss')  # Set title on ax
+        ax.plot(history.history['loss'], label='Loss')  # Plot training loss on ax
+        .set_title('Model loss')  # Set title on ax
         ax.set_ylabel('Loss')  # Set y-label on ax
         ax.set_xlabel('Epoch')  # Set x-label on ax
 
