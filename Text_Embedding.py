@@ -129,8 +129,8 @@ class CustomCallback(tf.keras.callbacks.Callback):
         loss = logs['loss']
         
         # Update the Streamlit interface with the current epoch's output
-        st.text(f"Epoch {epoch}: loss = {loss:.4f}, accuracy = {accuracy:.4f}")
-        st.session_state.training_history.append({'epoch': epoch, 'loss': loss})
+        st.text(f"Epoch {epoch}: loss = {loss:.4f}")
+
 
 if __name__=='__main__':
     app()   
