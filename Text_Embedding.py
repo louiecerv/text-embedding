@@ -4,6 +4,7 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, SimpleRNN, Dense
 import time
+import matplotlib.pyplot as plt
 
 if "trained_model" not in st.session_state:
     st.session_state.model = None
@@ -34,7 +35,7 @@ def app():
     # Display the text in a text are
     text = st.text_area("Text Area", input_text)
 
-    if st.sidebar.button('Prepare Data'):    
+    if text: 
         # Tokenize the text (convert words to integers)
         tokenizer = tf.keras.preprocessing.text.Tokenizer()
         tokenizer.fit_on_texts([text])
@@ -87,7 +88,18 @@ def app():
         label = st.session_state.label
 
         # Train the model
-        model.fit(predictors, label, epochs=epochs, verbose=1, callbacks=[CustomCallback()])
+        history = model.fit(predictors, label, epochs=epochs, verbose=1, callbacks=[CustomCallback()])
+
+        fig, ax = plt.subplots()  # Create a figure and an axes
+        ax.plot(history.history['loss'], label='Train')  # Plot training loss on ax
+        ax.plot(history.history['val_loss'], label='Validation')  # Plot validation loss on ax
+
+        ax.set_title('Model loss')  # Set title on ax
+        ax.set_ylabel('Loss')  # Set y-label on ax
+        ax.set_xlabel('Epoch')  # Set x-label on ax
+
+        ax.legend()  # Add legend
+        st.pyplot(fig)
 
          # update the progress bar
         for i in range(100):
