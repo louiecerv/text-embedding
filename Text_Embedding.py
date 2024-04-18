@@ -100,9 +100,9 @@ def app():
 
 
         # Generate text using the trained model
-        text_input = st.text_input('Enter seed text:')
+        st.sidebar.text_input = st.text_input('Enter a seed text:')
 
-        if st.button('Test the Model'):
+        if st.sidebar.button('Test the Model'):
             max_sequence_len = st.session_state.max_sequence_len
             generated_text = generate_text(text_input, 10, max_sequence_len)
             st.write(generated_text)
